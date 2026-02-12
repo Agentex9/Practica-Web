@@ -1,0 +1,132 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.center-page {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container h2 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.page-container {
+    width: 90%;
+    max-width: 600px;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  padding: 8px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b30000;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #333;
+}
+
+header h1 {
+    margin: 0;
+    color: white;
+    flex: 1;
+}
+
+header button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover {
+    background-color: #0056b3;
+}
+
+header button:active {
+    background-color: #003d82;
+}
+
+.page-container {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.menu-buttons button {
+    padding: 12px;
+    font-size: 16px;
+}
+
+.info-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+}
