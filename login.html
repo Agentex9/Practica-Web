@@ -30,9 +30,40 @@
     </main>
 
     <script>
+      // Check if already logged in
+      if (localStorage.getItem('isLoggedIn') === 'true') {
+          window.location.href = 'menu.html';
+      }
+
       document.getElementById("loginForm").addEventListener("submit", function(event) {
           event.preventDefault();
-          window.location.href = "menu.html";
+          
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          
+          // Check hardcoded admin account first
+          const validUsername = "admin";
+          const validPassword = "1234";
+          
+          if (username === validUsername && password === validPassword) {
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('username', username);
+              window.location.href = "menu.html";
+              return;
+          }
+          
+          // Check registered users
+          let registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+          const user = registrations.find(u => u.username === username && u.password === password);
+          
+          if (user) {
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('username', username);
+              window.location.href = "menu.html";
+          } else {
+              alert("Invalid username or password.");
+              document.getElementById("password").value = "";
+          }
       });
     </script>
 </body>

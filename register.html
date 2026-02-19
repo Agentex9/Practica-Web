@@ -9,9 +9,10 @@
 
     <main>
         <div>
-            <h2>Contact Form</h2>
+            <h2>Register</h2>
+            <div id="message"></div>
 
-            <form action="/submit" method="POST">
+            <form id="registerForm">
                 
                 <label for="name">Full Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -19,10 +20,13 @@
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
 
-                <button type="submit">Submit</button>
+                <button type="submit">Register</button>
 
             </form>
         </div>
@@ -32,6 +36,55 @@
         <small>© 2026</small>
         <button onclick="window.location.href='login.html'">Back</button>
     </footer>
+
+    <script>
+      document.getElementById("registerForm").addEventListener("submit", function(event) {
+          event.preventDefault();
+          
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          
+          // Get existing registrations or create new array
+          let registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+          
+          // Check if username already exists
+          const userExists = registrations.some(user => user.username === username);
+          if (userExists) {
+              document.getElementById("message").textContent = "Username already exists!";
+              document.getElementById("message").style.color = "red";
+              return;
+          }
+          
+          // Create new user object
+          const newUser = {
+              name: name,
+              email: email,
+              username: username,
+              password: password,
+              registeredAt: new Date().toLocaleString()
+          };
+          
+          // Add to registrations array
+          registrations.push(newUser);
+          
+          // Store in localStorage
+          localStorage.setItem('registrations', JSON.stringify(registrations));
+          
+          // Show success message
+          document.getElementById("message").textContent = "Registration successful! Redirecting to login...";
+          document.getElementById("message").style.color = "green";
+          
+          // Clear form
+          document.getElementById("registerForm").reset();
+          
+          // Redirect to login after 2 seconds
+          setTimeout(() => {
+              window.location.href = "login.html";
+          }, 2000);
+      });
+    </script>
 
 </body>
 </html>

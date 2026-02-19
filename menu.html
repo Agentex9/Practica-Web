@@ -6,11 +6,25 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+    <script>
+      // Check if user is logged in
+      if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = 'login.html';
+      }
+    </script>
 
     <header>
         <h1>Main Menu</h1>
-        <button onclick="window.location.href='login.html'">Logout</button>
+        <button onclick="logout()">Logout</button>
     </header>
+    
+    <script>
+      function logout() {
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('username');
+          window.location.replace('login.html');
+      }
+    </script>
 
     <main>
         <div class="page-container">
