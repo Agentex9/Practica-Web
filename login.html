@@ -29,11 +29,16 @@
         </div>
     </main>
 
+    <script src="auth.js"></script>
     <script>
-      // Check if already logged in
-      if (localStorage.getItem('isLoggedIn') === 'true') {
-          window.location.href = 'menu.html';
-      }
+      document.addEventListener('DOMContentLoaded', function() {
+          // Check if already logged in with valid token
+          if (localStorage.getItem('isLoggedIn') === 'true' && isTokenValid()) {
+              window.location.href = 'menu.html';
+          } else {
+              clearToken();
+          }
+      });
 
       document.getElementById("loginForm").addEventListener("submit", function(event) {
           event.preventDefault();
@@ -46,8 +51,7 @@
           const validPassword = "1234";
           
           if (username === validUsername && password === validPassword) {
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('username', username);
+              setToken(username);
               window.location.href = "menu.html";
               return;
           }
@@ -57,8 +61,7 @@
           const user = registrations.find(u => u.username === username && u.password === password);
           
           if (user) {
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('username', username);
+              setToken(username);
               window.location.href = "menu.html";
           } else {
               alert("Invalid username or password.");
