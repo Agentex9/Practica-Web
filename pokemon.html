@@ -80,17 +80,27 @@
 
         // Allow searching by pressing Enter
         document.addEventListener('DOMContentLoaded', function() {
-            const input = document.getElementById('pokemonInput');
-            input.addEventListener('keypress', function(event) {
+        const input = document.getElementById('pokemonInput');
+
+        if (input) {
+            input.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
+                    event.preventDefault(); // prevents form reload if inside a form
                     searchPokemon();
                 }
             });
+        }
 
-            // Load default Pokemon on page load
-            setTimeout(() => {
-                displayPokemonCard('ditto', 'pokemon-display');
-            }, 500);
+        const params = new URLSearchParams(window.location.search);
+        const pokemonName = params.get("name")?.toLowerCase();
+
+        if (pokemonName) {
+            input.value = pokemonName;
+            displayPokemonCard(pokemonName, "pokemon-display");
+            return;
+        }
+
+        displayPokemonCard('ditto', 'pokemon-display');
         });
     </script>
 </body>

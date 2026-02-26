@@ -30,6 +30,18 @@ function getPageButtons() {
       return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
     case 'pokemon.html':
       return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
+    case 'pokemonlist.html':
+      return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
+    default:
+      return '';
+  }
+}
+function footer() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  switch(currentPage) {
+    case 'pokemonlist.html':
+      return '<button onclick="loadpokemon()">Load More Pokémon</button>';
     default:
       return '';
   }
@@ -56,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create and inject footer
     const footerHTML = `
       <footer>
-        <small>© 2026</small>
+        <small>© 2026</small>${footer()}
       </footer>
     `;
     

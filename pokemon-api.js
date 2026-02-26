@@ -73,8 +73,8 @@ async function displayPokemonCard(pokemonName, elementId) {
       <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" class="pokemon-sprite" />
       <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
       <p><strong>ID:</strong> ${pokemon.id}</p>
-      <p><strong>Height:</strong> ${(pokemon.height / 10).toFixed(1)} m</p>
-      <p><strong>Weight:</strong> ${(pokemon.weight / 10).toFixed(1)} kg</p>
+      <p><strong>Height:</strong> ${(pokemon.height).toFixed(1)} m</p>
+      <p><strong>Weight:</strong> ${(pokemon.weight).toFixed(1)} kg</p>
       <p><strong>Type:</strong> ${pokemon.types.map(t => t.type.name).join(', ')}</p>
       <p><strong>Abilities:</strong> ${pokemon.abilities.map(a => a.ability.name).join(', ')}</p>
       <p><strong>Base Experience:</strong> ${pokemon.base_experience}</p>
