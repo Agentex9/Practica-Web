@@ -11,6 +11,8 @@ function getPageTitle() {
       return 'Contact Us';
     case 'vista2.html':
       return 'Vista 2';
+    case 'pokemon.html':
+      return 'Pokémon Viewer';
     default:
       return 'Page';
   }
@@ -25,6 +27,8 @@ function getPageButtons() {
     case 'contact.html':
       return '<button onclick="logout()">Exit</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
     case 'vista2.html':
+      return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
+    case 'pokemon.html':
       return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
     default:
       return '';
