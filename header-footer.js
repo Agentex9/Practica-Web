@@ -29,7 +29,7 @@ function getPageButtons() {
     case 'vista2.html':
       return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
     case 'pokemon.html':
-      return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
+      return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button><button onclick="window.location.href=\'pokemonlist.html\'">Pokémon List</button>';
     case 'pokemonlist.html':
       return '<button onclick="logout()">Logout</button><button onclick="window.location.href=\'menu.html\'">Menu</button>';
     default:
@@ -39,12 +39,16 @@ function getPageButtons() {
 function footer() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   
-  switch(currentPage) {
-    case 'pokemonlist.html':
-      return '<button onclick="loadpokemon()">Load More Pokémon</button>';
-    default:
+  // Check if we're loading by type in pokemonlist
+  if (currentPage === 'pokemonlist.html') {
+    // The footer will be updated dynamically by pokemonlist.js based on currentLoadMode
+    // This default is overridden by updateFooter() function in pokemonlist.html
+    if (typeof currentLoadMode !== 'undefined' && currentLoadMode === 'type') {
       return '';
+    }
+    return '<button onclick="loadpokemon()">Load More Pokémon</button>';
   }
+  return '';
 }
 
 // Inject header and footer on page load

@@ -37,6 +37,103 @@
             justify-content: center;
             margin-top: 20px;
         }
+
+        .load-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .load-btn {
+            padding: 10px 20px;
+            background-color: #ccc;
+            color: #333;
+            border: 2px solid #999;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .load-btn.active {
+            background-color: #007BFF;
+            color: white;
+            border-color: #0056b3;
+        }
+
+        .load-btn:hover {
+            background-color: #0056b3;
+            color: white;
+            border-color: #003d82;
+        }
+
+        #typeSearchContainer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        #typeSearchContainer label {
+            font-weight: bold;
+        }
+
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            justify-content: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .type-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border: 3px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .type-option img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+
+        .type-option.selected {
+            border-color: #007BFF;
+            background-color: #e7f3ff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .type-option:hover {
+            border-color: #0056b3;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #btnSearchType {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        #btnSearchType:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -50,19 +147,116 @@
     <main>
         <div class="page-container">
             <h2>Pokémon List Viewer</h2>
+            <div class="load-options">
+                <button id="btnRegularLoad" class="load-btn active">Regular Load</button>
+                <button id="btnTypeLoad" class="load-btn">Load by Type</button>
+                <button onclick="window.location.href='pokemon.html'" class="load-btn">Search by Name</button>
+            </div>
+            <div id="typeSearchContainer" style="display: none;">
+                <div style="width: 100%; text-align: center;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 15px;">Select Type:</label>
+                    <div id="typeSelectorGrid" class="type-selector"></div>
+                    <button id="btnSearchType">Search</button>
+                </div>
+            </div>
             <div id="pokemon-display"></div>
         </div>
     </main>
 
     <script>
-        // Function to search for a Pokemon
+        let currentLoadMode = 'regular'; // Track current load mode
+        let selectedType = null; // Track selected type
+        
         document.addEventListener("DOMContentLoaded", () => {
-        displayPokemonList('pokemon-display');
+            initializeTypeSelector();
+            setupLoadModeButtons();
+            displayPokemonList('pokemon-display');
         });
+        
+        function setupLoadModeButtons() {
+            const btnRegularLoad = document.getElementById('btnRegularLoad');
+            const btnTypeLoad = document.getElementById('btnTypeLoad');
+            const typeSearchContainer = document.getElementById('typeSearchContainer');
+            
+            btnRegularLoad.addEventListener('click', () => {
+                currentLoadMode = 'regular';
+                btnRegularLoad.classList.add('active');
+                btnTypeLoad.classList.remove('active');
+                typeSearchContainer.style.display = 'none';
+                offset = 0; // Reset pagination
+                displayPokemonList('pokemon-display');
+                updateFooter();
+            });
+            
+            btnTypeLoad.addEventListener('click', () => {
+                currentLoadMode = 'type';
+                btnTypeLoad.classList.add('active');
+                btnRegularLoad.classList.remove('active');
+                typeSearchContainer.style.display = 'flex';
+                updateFooter();
+            });
+        }
+        
+        function updateFooter() {
+            const footer = document.querySelector('footer');
+            if (footer) {
+                if (currentLoadMode === 'regular') {
+                    footer.innerHTML = '<small>© 2026</small><button onclick="loadpokemon()">Load More Pokémon</button>';
+                } else {
+                    footer.innerHTML = '<small>© 2026</small>';
+                }
+            }
+        }
+        
+        async function initializeTypeSelector() {
+            const typeSelectorGrid = document.getElementById('typeSelectorGrid');
+            const types = await fetchAllTypes();
+            
+            types.forEach(type => {
+                const typeOption = document.createElement('div');
+                typeOption.classList.add('type-option');
+                typeOption.dataset.typeName = type.name;
+                
+                const img = document.createElement('img');
+                img.src = getpokemontypesprite(type.url);
+                img.alt = type.name;
+                img.onerror = function() {
+                    this.src = 'Unknown.png';
+                };
+                
+                const typeLabel = document.createElement('p');
+                typeLabel.textContent = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+                typeLabel.style.margin = '5px 0 0 0';
+                typeLabel.style.fontSize = '12px';
+                typeLabel.style.fontWeight = 'bold';
+                
+                typeOption.appendChild(img);
+                typeOption.appendChild(typeLabel);
+                
+                typeOption.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.type-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Add selected class to clicked option
+                    typeOption.classList.add('selected');
+                    selectedType = type.name;
+                });
+                
+                typeSelectorGrid.appendChild(typeOption);
+            });
+            
+            document.getElementById('btnSearchType').addEventListener('click', () => {
+                if (selectedType) {
+                    offset = 0; // Reset pagination
+                    displayPokemonCardtype('pokemon-display', selectedType);
+                }
+            });
+        }
+        
         function loadpokemon() {
             loadMorePokemon('pokemon-display');
         }
-        
     </script>
 </body>
 </html>

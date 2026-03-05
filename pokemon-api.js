@@ -70,7 +70,7 @@ async function displayPokemonCard(pokemonName, elementId) {
   
   const html = `
     <div class="pokemon-card">
-      <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" class="pokemon-sprite" />
+      <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" class="pokemon-sprite" onerror="this.src='PokemonNF.png';" />
       <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
       <p><strong>ID:</strong> ${pokemon.id}</p>
       <p><strong>Height:</strong> ${(pokemon.height).toFixed(1)} m</p>
