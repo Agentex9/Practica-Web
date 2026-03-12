@@ -13,10 +13,10 @@ let battleState = {
     maxTurns: 10,
     currentPlayer: 1,
     battleActive: false,
-    pokemon1SpecialAttackTurns: 0,
-    pokemon2SpecialAttackTurns: 0,
-    pokemon1SpecialDefenseTurns: 0,
-    pokemon2SpecialDefenseTurns: 0,
+    pokemon1SpecialAttackTurns: 3,
+    pokemon2SpecialAttackTurns: 3,
+    pokemon1SpecialDefenseTurns: 2,
+    pokemon2SpecialDefenseTurns: 2,
     battleLog: [],
     waitingForAction: false
 };
@@ -118,10 +118,10 @@ function startBattle() {
     battleState.currentPlayer = 1;
     battleState.pokemon1Hp = 100;
     battleState.pokemon2Hp = 100;
-    battleState.pokemon1SpecialAttackTurns = 0;
-    battleState.pokemon2SpecialAttackTurns = 0;
-    battleState.pokemon1SpecialDefenseTurns = 0;
-    battleState.pokemon2SpecialDefenseTurns = 0;
+    battleState.pokemon1SpecialAttackTurns = 3;
+    battleState.pokemon2SpecialAttackTurns = 3;
+    battleState.pokemon1SpecialDefenseTurns = 2;
+    battleState.pokemon2SpecialDefenseTurns = 2;
 
     // Display pokémon info
     document.getElementById('pokemon1Name').textContent = battleState.pokemon1.toUpperCase();
@@ -396,24 +396,36 @@ function endBattle() {
     
     let winner = '';
     let message = '';
+    let winnerSprite = '';
 
     if (battleState.pokemon1Hp <= 0) {
         winner = battleState.pokemon2.toUpperCase();
+        winnerSprite = battleState.pokemon2Data.sprites.front_default;
         message = `¡${winner} GANA LA BATALLA!`;
-    } else if (battleState.pokemon2Hp <= 0) {
+    } 
+    else if (battleState.pokemon2Hp <= 0) {
         winner = battleState.pokemon1.toUpperCase();
+        winnerSprite = battleState.pokemon1Data.sprites.front_default;
         message = `¡${winner} GANA LA BATALLA!`;
-    } else {
+    } 
+    else {
         message = `¡BATALLA EMPATADA! Ambos Pokémon siguen en pie después de 10 turnos.`;
     }
 
     const html = `
         <div class="battle-end">
             <h2>${message}</h2>
+
+            ${winnerSprite ? `<img src="${winnerSprite}" class="winner-sprite">` : ""}
+
             <p>Turno final: ${battleState.currentTurn - 1}</p>
             <p>${battleState.pokemon1.toUpperCase()}: ${Math.max(0, battleState.pokemon1Hp)}/100 HP</p>
             <p>${battleState.pokemon2.toUpperCase()}: ${Math.max(0, battleState.pokemon2Hp)}/100 HP</p>
-            <button class="action-button" onclick="location.href='menu.html'" style="margin-top: 20px; width: 200px;">Volver al Menú</button>
+
+            <button class="action-button" onclick="location.href='menu.html'" 
+            style="margin-top: 20px; width: 200px;">
+            Volver al Menú
+            </button>
         </div>
     `;
 
